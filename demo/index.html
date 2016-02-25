@@ -9,70 +9,70 @@
 <body>
 
 
-  <div id="content">
-    <div class="container">
-      <section class="copy">
-        <h1 style="color:#444">Choice visual feature select page</h1>
-        <div class="figure-wrapper">
-          <figure class="image-container target">
-            <img src="./images/domokun-big.jpg" alt="DomoKun" id="target">
-          </figure>
-        </div>
-        <button onclick="getResults();">Get Results</button>
-        <button onclick="destroySelection();">Destroy selection</button>
-      </section>
-    </div>
+<div id="content">
+  <div class="container">
+    <section class="copy">
+      <h1 style="color:#444">Choice visual feature select page</h1>
+      <div class="figure-wrapper">
+        <figure class="image-container target">
+          <img src="./images/domokun-big.jpg" alt="DomoKun" id="target">
+        </figure>
+      </div>
+      <button onclick="getResults();">Get Results</button>
+      <button onclick="destroySelection();">Destroy selection</button>
+    </section>
   </div>
+</div>
 
-  <script src="./vendor/fabric.js"></script>
-  <script src="./build/darkroom.js"></script>
+<script src="./vendor/fabric2.js"></script>
+<script src="./build/darkroom.js"></script>
 
-  <script>
+<script>
 
-    function destroySelection(){
-      dkrm.selfDestroy();
-      alert ("Destroying dark room");
+  function destroySelection(){
+    dkrm.selfDestroy();
+    alert ("Destroying dark room");
+  }
+
+
+  function getResults(){
+    var selectPlugin = dkrm.plugins['select'];
+    if(selectPlugin){
+      var s = selectPlugin.selectCurrentZone();
+      console.log(s)
     }
-
-
-    function getResults(){
-      var selectPlugin = dkrm.plugins['select'];
-      if(selectPlugin){
-        var s = selectPlugin.selectCurrentZone();
-        console.log(s)
-      }
-      else{
-        alert ("failed to get results");
-      }
+    else{
+      alert ("failed to get results");
     }
-    var selectPlugin = null;
-    var dkrm = new Darkroom('#target', {
-      // Size options
-      minWidth: 100,
-      minHeight: 100,
-      maxWidth: 600,
-      maxHeight: 500,
-      ratio: 4/3,
-      backgroundColor: '#000',
+  }
 
-      // Plugins options
-      plugins: {
-        select: {
-          quickSelectKey: 67, //key "c"
-          minHeight: 50,
-          minWidth: 50
-          //ratio: 4/3
-        }
-      },
+  var dkrm = new Darkroom('#target', {
+    // Size options
+    minWidth: 100,
+    minHeight: 100,
+    maxWidth: 600,
+    maxHeight: 500,
+    ratio: 4/3,
+    backgroundColor: '#000',
 
-      // Post initialize script
-      initialize: function() {
-        var selectPlugin = this.plugins['select'];
-        selectPlugin.requireFocus();
-        //selectPlugin.selectZone(100, 25, 10, 10);
+    // Plugins options
+    plugins: {
+      select: {
+        quickSelectKey: 67, //key "c"
+        minHeight: 50,
+        minWidth: 50
+        //ratio: 4/3
       }
-    });
-  </script>
+    },
+
+    // Post initialize script
+    initialize: function() {
+      var selectPlugin = this.plugins['select'];
+      selectPlugin.drawZone(100, 100, 50, 50, true);
+      selectPlugin.requireFocus();
+    }
+  });
+</script>
 
 
 </body>
