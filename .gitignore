@@ -1,4 +1,5 @@
 /.sass-cache/
+build/darkroom.js
 /bower_components/
 /build/
 /node_modules/
