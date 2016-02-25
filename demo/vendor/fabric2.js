@@ -16336,7 +16336,11 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
    */
   fabric.Image.fromURL = function(url, callback, imgOptions) {
     fabric.util.loadImage(url, function(img) {
-      callback && callback(new fabric.Image(img, imgOptions));
+      var fabImage;
+      if(img) {
+        fabImage = new fabric.Image(img, imgOptions)
+      }
+      callback && callback(fabImage);
     }, null, imgOptions && imgOptions.crossOrigin);
   };
 
