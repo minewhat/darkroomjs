@@ -20,7 +20,7 @@
   "keywords": [
     "image",
     "canvas",
-    "crop"
+    "select"
   ],
   "ignore": [
     "node_modules",
