@@ -12,12 +12,14 @@
   <div id="content">
     <div class="container">
       <section class="copy">
-        <h2 class="sr-only">choice trail page</h2>
+        <h1 style="color:#444">Choice visual feature select page</h1>
         <div class="figure-wrapper">
           <figure class="image-container target">
             <img src="./images/domokun-big.jpg" alt="DomoKun" id="target">
           </figure>
         </div>
+        <button onclick="getResults();">Get Results</button>
+        <button onclick="destroySelection();">Destroy selection</button>
       </section>
     </div>
   </div>
@@ -26,6 +28,24 @@
   <script src="./build/darkroom.js"></script>
 
   <script>
+
+    function destroySelection(){
+      dkrm.selfDestroy();
+      alert ("Destroying dark room");
+    }
+
+
+    function getResults(){
+      var selectPlugin = dkrm.plugins['select'];
+      if(selectPlugin){
+        var s = selectPlugin.selectCurrentZone();
+        console.log(s)
+      }
+      else{
+        alert ("failed to get results");
+      }
+    }
+    var selectPlugin = null;
     var dkrm = new Darkroom('#target', {
       // Size options
       minWidth: 100,
@@ -48,8 +68,8 @@
       // Post initialize script
       initialize: function() {
         var selectPlugin = this.plugins['select'];
-        // selectPlugin.selectZone(170, 25, 300, 300);
         selectPlugin.requireFocus();
+        //selectPlugin.selectZone(100, 25, 10, 10);
       }
     });
   </script>
