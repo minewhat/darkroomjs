@@ -15,7 +15,7 @@
         <h1 style="color:#444">Choice visual feature select page</h1>
         <div class="figure-wrapper">
           <figure class="image-container target">
-            <img src="./images/domokun-big.jpg" alt="DomoKun" id="target">
+            <img src="http://s7d2.scene7.com/is/image/rue21/0284_001846_0001505_0042_m" alt="DomoKun" id="target">
           </figure>
         </div>
         <button onclick="getResults();">Get Results</button>
@@ -24,11 +24,12 @@
     </div>
   </div>
 
-  <script src="./vendor/fabric.js"></script>
+  <script src="./vendor/fabric2.js"></script>
   <script src="./build/darkroom.js"></script>
 
   <script>
 
+    window._choicesrv = "//data.choice.ai";
     function destroySelection(){
       dkrm.selfDestroy();
       alert ("Destroying dark room");
