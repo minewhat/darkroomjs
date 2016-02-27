@@ -9,45 +9,90 @@
 <body>
 
 
-  <div id="content">
-    <div class="container">
-      <section class="copy">
-        <h1 style="color:#444">Choice visual feature select page</h1>
-        <div class="figure-wrapper">
-          <figure class="image-container target">
-            <img src="http://s7d2.scene7.com/is/image/rue21/0284_001846_0001505_0042_m" alt="DomoKun" id="target">
-          </figure>
-        </div>
-        <button onclick="getResults();">Get Results</button>
-        <button onclick="destroySelection();">Destroy selection</button>
-      </section>
-    </div>
+<div id="content">
+  <div class="container">
+    <section class="copy">
+      <h1 style="color:#444">Choice visual feature select page</h1>
+
+
+      <div class="figure-wrapper">
+        <figure class="image-container target">
+          <img src="images/batcat.png" alt="DomoKun" id="target">
+        </figure>
+      </div>
+      <button onclick="getResults();">Get Results</button>
+      <button onclick="reset();">Reset</button>
+      <input type='file' id='imgfile' onchange="previewFile()"/>
+
+      <div style="font-size: 14px; margin-top: 30px;max-width: 300px;"><span>Co:Ordinates</span><span
+          id="results"></span></div>
+    </section>
   </div>
+</div>
 
-  <script src="./vendor/fabric2.js"></script>
-  <script src="./build/darkroom.js"></script>
+<script src="./vendor/fabric2.js"></script>
+<script src="./build/darkroom.js"></script>
 
-  <script>
+<script>
 
-    window._choicesrv = "//data.choice.ai";
-    function destroySelection(){
-      dkrm.selfDestroy();
-      alert ("Destroying dark room");
+  window._choicesrv = "//data.choice.ai";
+  var dkrm;
+  function reset() {
+    document.getElementById('results').innerHTML = ""
+    if(dkrm)
+    dkrm.selfDestroy();
+    dkrm = null
+    var f = document.querySelector('input[type=file]')
+    f.value = f.defaultValue
+  }
+  function destroySelection() {
+
+  }
+
+  function previewFile() {
+    var preview = document.querySelector('img');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+      reset();
+      setTimeout(function(){
+        var preview = document.querySelector('img');
+        preview.src = reader.result;
+        preview.onload = function(){
+          initDarkRoom();
+        }
+      },200)
+
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+  function getResults() {
+    if(!dkrm)return;
+    var selectPlugin = dkrm.plugins['select'];
+    if (selectPlugin) {
+      var coOrd = selectPlugin.selectCurrentZone();
+      var current = document.getElementById('results').innerHTML
+      var comma=""
+      //(63.0, 260.0, 89.0, 287.0)
+      if(current) comma = ","
+      for (var k in coOrd)
+        coOrd[k] = (coOrd[k]).toFixed(1)
+      current += comma
+      current += " (" + coOrd.left + " , " + coOrd.top + " , " +
+          (parseFloat(coOrd.left) + parseFloat(coOrd.width)).toFixed(1) + " , " + (parseFloat(coOrd.height) + parseFloat(coOrd.top)).toFixed(1) + " )"
+      document.getElementById('results').innerHTML = current
     }
 
-
-    function getResults(){
-      var selectPlugin = dkrm.plugins['select'];
-      if(selectPlugin){
-        var s = selectPlugin.selectCurrentZone();
-        console.log("IMAGE",s)
-      }
-      else{
-        alert ("failed to get results");
-      }
-    }
-    var selectPlugin = null;
-    var dkrm = new Darkroom('#target', {
+  }
+  function initDarkRoom() {
+    var preview = document.querySelector('img');
+    dkrm = new Darkroom(preview, {
       // Size options
       minWidth: 315,
       minHeight: 280,
@@ -68,13 +113,15 @@
       },
 
       // Post initialize script
-      initialize: function() {
+      initialize: function () {
         var selectPlugin = this.plugins['select'];
         selectPlugin.requireFocus();
-        selectPlugin.drawZone(100,100, 100, 100,true);
+        selectPlugin.drawZone(100, 100, 100, 100, true);
       }
     });
-  </script>
+  }
+  initDarkRoom();
+</script>
 
 
 </body>
