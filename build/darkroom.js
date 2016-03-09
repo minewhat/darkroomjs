@@ -848,7 +848,7 @@ Darkroom.plugins['select'] = Darkroom.Plugin.extend({
   },
 
   // Finish select zone
-  onMouseUp: function(onMouseUp) {
+  onMouseUp: function(event) {
     this.darkroom.dispatchEvent('onMouseUp');
     if (null === this.startX || null === this.startY) {
       return;
@@ -1132,4 +1132,3 @@ Darkroom.plugins['select'] = Darkroom.Plugin.extend({
 });
 
 })();
-

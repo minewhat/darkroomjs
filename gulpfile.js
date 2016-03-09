@@ -83,11 +83,9 @@ gulp.task('scripts', function () {
 
   gulp.src(files)
     .pipe(plumber())
-    .pipe(isDebug ? sourcemaps.init() : gutil.noop())
       .pipe(concat('darkroom.js', {newLine: ';'}))
       //.pipe(inject(svgs, { transform: fileContents }))
       .pipe(isDebug ? gutil.noop() : uglify({mangle: false}))
-    .pipe(isDebug ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(distDir))
 })
 
@@ -97,10 +95,8 @@ gulp.task('scripts', function () {
 gulp.task('styles', function () {
   gulp.src(srcDir + '/css/darkroom.scss')
     .pipe(plumber())
-    .pipe(isDebug ? sourcemaps.init() : gutil.noop())
       .pipe(sass({
         outputStyle: isDebug ? 'nested' : 'compressed'
       }))
-    .pipe(isDebug ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(distDir))
 })
