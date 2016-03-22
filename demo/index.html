@@ -17,11 +17,19 @@
 
       <div class="figure-wrapper">
         <figure class="image-container target">
-          <img src="images/batcat.png" alt="DomoKun" id="target">
+
         </figure>
       </div>
+      <div>
+        <img src="images/batcat.png" alt="batcat" id="target1">
+        <img src="images/domokun.jpg" alt="DomoKun" id="target2">
+        <img id="hiddentarget">
+      </div>
+
+
       <button onclick="getResults();">Get Results</button>
       <button onclick="reset();">Reset</button>
+      <button onclick="testReinit();">Test Reinit</button>
       <input type='file' id='imgfile' onchange="previewFile()"/>
 
       <div style="font-size: 14px; margin-top: 30px;max-width: 300px;"><span>Co:Ordinates</span><span
@@ -37,6 +45,12 @@
 
   window._choicesrv = "//data.choice.ai";
   var dkrm;
+
+  function testReinit() {
+    reset()
+    initDarkRoom("http://localhost:2222/images/domokun.jpg")
+  }
+
   function reset() {
     document.getElementById('results').innerHTML = ""
     if(dkrm)
@@ -50,17 +64,17 @@
   }
 
   function previewFile() {
-    var preview = document.querySelector('img');
+    //var preview = document.querySelector('img');
     var file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
 
     reader.addEventListener("load", function () {
       reset();
       setTimeout(function(){
-        var preview = document.querySelector('img');
+        var preview = document.querySelector('img#hiddentarget');
         preview.src = reader.result;
         preview.onload = function(){
-          initDarkRoom();
+          initDarkRoom(preview.src);
         }
       },200)
 
@@ -77,6 +91,7 @@
     var selectPlugin = dkrm.plugins['select'];
     if (selectPlugin) {
       var coOrd = selectPlugin.selectCurrentZone();
+      if(!coOrd)return;
       var current = document.getElementById('results').innerHTML
       var comma=""
       //(63.0, 260.0, 89.0, 287.0)
@@ -90,9 +105,14 @@
     }
 
   }
-  function initDarkRoom() {
-    var preview = document.querySelector('img');
-    dkrm = new Darkroom(preview, {
+  function initDarkRoom(url) {
+    var wheretoKeep = document.querySelector('figure.target');
+    console.log(url)
+    dkrm = new Darkroom(wheretoKeep, {
+
+      putBackOnDestroy: true,
+      //URL
+      fromURL: url,
       // Size options
       minWidth: 315,
       minHeight: 280,
@@ -105,9 +125,9 @@
       // Plugins options
       plugins: {
         select: {
-          quickSelectKey: 67, //key "c"
-          minHeight: 50,
-          minWidth: 50
+          //quickSelectKey: 67, //key "c"
+          minHeight: 75,
+          minWidth: 75
           //ratio: 4/3
         }
       },
@@ -120,7 +140,7 @@
       }
     });
   }
-  initDarkRoom();
+  initDarkRoom("http://localhost:2222/images/batcat.png");
 </script>
 
 
