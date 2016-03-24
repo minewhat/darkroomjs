@@ -5,6 +5,8 @@
   <title>DarkroomJS</title>
   <link rel="stylesheet" href="./build/darkroom.css">
   <link rel="stylesheet" href="./css/page.css">
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/sebsauer90/horizon-swiper/master/dist/horizon-swiper.min.css">
+  <link rel="stylesheet" href="http://horizon-swiper.sebsauer.de/horizon-swiper/dist/horizon-theme.min.css">
 </head>
 <body>
 
@@ -20,11 +22,16 @@
 
         </figure>
       </div>
-      <div>
-        <img src="images/batcat.png" alt="batcat" id="target1">
-        <img src="images/domokun.jpg" alt="DomoKun" id="target2">
-        <img id="hiddentarget">
+
+      <div class="horizon-swiper" style="max-height: 100px">
+        <img class="horizon-item"   src="images/batcat.png"/>
+        <img class="horizon-item"   src="images/domokun.jpg"/>
+        <img class="horizon-item"   src="images/bx_loader.gif"/>
+        <img class="horizon-item"   src="images/batcat.png"/>
+        <img class="horizon-item"   src="images/domokun.jpg"/>
+        <img class="horizon-item"   src="images/bx_loader.gif"/>
       </div>
+
 
 
       <button onclick="getResults();">Get Results</button>
@@ -40,7 +47,8 @@
 
 <script src="./vendor/fabric2.js"></script>
 <script src="./build/darkroom.js"></script>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="./vendor/horizon.js"></script>
 <script>
 
   window._choicesrv = "//data.choice.ai";
@@ -141,6 +149,8 @@
     });
   }
   initDarkRoom("http://localhost:2222/images/batcat.png");
+  $('.horizon-swiper').horizonSwiper();
+
 </script>
 
 

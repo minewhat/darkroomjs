@@ -118,7 +118,7 @@
           self.initializePostImageLoad(element, oImage)
         } else {
           console.log("Retrying Loading with Fallback")
-          self.loadImageFromURL(window._choicesrv + "/widget/v2/getImage?url=" + encodeURIComponent(element.src), function (oImageRetry) {
+          self.loadImageFromURL(window._choicesrv + "/widget/v2/getImage?url=" + encodeURIComponent(imageSrc), function (oImageRetry) {
             self.initializePostImageLoad(element, oImageRetry)
           })
         }
